@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+const { REACT_APP_BASE_URL } = process.env
 
 const FeedbackContext = createContext();
 
@@ -6,9 +7,6 @@ export const FeedbackProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [feedback, setFeedback] = useState([]);
 
-    const { REACT_APP_BASE_URL } = process.env
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchFeedback = async () => {
         const response = await fetch(`${REACT_APP_BASE_URL}/feedback?_sort=id&_order=desc`);
         const data = await response.json();
@@ -16,10 +14,9 @@ export const FeedbackProvider = ({ children }) => {
         setIsLoading(false);
     };
 
-
     useEffect(() => {
         fetchFeedback();
-    }, [fetchFeedback]);
+    }, []);
 
     const [feedbackEdit, setFeedbackEdit] = useState({
         item: {},
