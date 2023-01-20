@@ -6,12 +6,14 @@ export const FeedbackProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [feedback, setFeedback] = useState([]);
 
+    const { REACT_APP_BASE_URL } = process.env
+
     useEffect(() => {
         fetchFeeback();
     }, []);
 
     const fetchFeeback = async () => {
-        const response = await fetch('/feedback?_sort=id&_order=desc');
+        const response = await fetch(`${REACT_APP_BASE_URL}/feedback?_sort=id&_order=desc`);
         const data = await response.json();
         setFeedback(data);
         setIsLoading(false);
@@ -30,7 +32,7 @@ export const FeedbackProvider = ({ children }) => {
     };
 
     const updateFeedback = async (id, updItem) => {
-        const response = await fetch(`/feedback/${id}`, {
+        const response = await fetch(`${REACT_APP_BASE_URL}/feedback/${id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json',
@@ -54,13 +56,13 @@ export const FeedbackProvider = ({ children }) => {
 
     const deleteFeedback = async (id) => {
         if (window.confirm('Are you sure you want to delete?')) {
-            await fetch(`/feedback/${id}`, { method: 'DELETE' });
+            await fetch(`${REACT_APP_BASE_URL}/feedback/${id}`, { method: 'DELETE' });
             setFeedback(feedback.filter((item) => item.id !== id));
         }
     };
 
     const addFeedback = async (newFeedback) => {
-        const response = await fetch('/feedback', {
+        const response = await fetch(`${REACT_APP_BASE_URL}/feedback`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
