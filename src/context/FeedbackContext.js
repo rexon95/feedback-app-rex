@@ -8,16 +8,18 @@ export const FeedbackProvider = ({ children }) => {
 
     const { REACT_APP_BASE_URL } = process.env
 
-    useEffect(() => {
-        fetchFeeback();
-    }, []);
-
-    const fetchFeeback = async () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchFeedback = async () => {
         const response = await fetch(`${REACT_APP_BASE_URL}/feedback?_sort=id&_order=desc`);
         const data = await response.json();
         setFeedback(data);
         setIsLoading(false);
     };
+
+
+    useEffect(() => {
+        fetchFeedback();
+    }, [fetchFeedback]);
 
     const [feedbackEdit, setFeedbackEdit] = useState({
         item: {},
